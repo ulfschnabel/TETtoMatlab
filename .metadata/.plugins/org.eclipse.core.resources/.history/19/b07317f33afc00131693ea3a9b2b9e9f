@@ -1,0 +1,49 @@
+package main;
+
+import com.theeyetribe.client.GazeManager;
+import com.theeyetribe.client.IGazeListener;
+import com.theeyetribe.client.GazeManager.*;
+import com.theeyetribe.client.data.GazeData;
+
+
+
+
+public class ETT {
+	
+	static CoordPair latest = new CoordPair();
+	
+	public static void main(String[] args)
+	{
+		
+		latest.setvalues(1, 2);
+		
+	   final GazeManager gm = GazeManager.getInstance();        
+	   boolean success = gm.activate(ApiVersion.VERSION_1_0, ClientMode.PUSH);
+	   System.out.println(Boolean.toString(success));
+	   
+	   /*final GazeListener gazeListener = new GazeListener();
+	   gm.addGazeListener(gazeListener);*/
+	   System.out.println("Lalala");
+	}
+	public void changevals()
+	{
+		latest.setvalues(1, 2);
+	}
+	
+	
+	public CoordPair GetLatestValues()
+	{
+		return latest;
+	}
+	
+}
+
+class GazeListener implements IGazeListener
+{
+    public void onGazeUpdate(GazeData gazeData)
+    {
+        System.out.println(gazeData.toString());
+    }
+}
+
+

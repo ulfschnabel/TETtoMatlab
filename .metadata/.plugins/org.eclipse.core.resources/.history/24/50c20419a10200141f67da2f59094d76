@@ -1,0 +1,139 @@
+package main;
+
+import com.theeyetribe.client.GazeManager;
+import com.theeyetribe.client.IGazeListener;
+import com.theeyetribe.client.GazeManager.*;
+import com.theeyetribe.client.data.CalibrationResult;
+import com.theeyetribe.client.data.GazeData;
+import com.theeyetribe.client.ICalibrationProcessHandler;
+
+
+
+
+public class TETHandler {
+	
+	final static GazeListener gazeListener = new GazeListener();
+	final static CalibrationHandler calibrationHandler = new CalibrationHandler();
+	public static String state;
+	static GazeManager gm;
+	static boolean running = false;
+	static double x;
+	static double y;
+	
+	public static void main(String[] args)
+	{
+			System.out.println("The eyetracking is ready to run");
+			
+	}
+	
+	
+	public static void start()
+	{
+		if(!running)
+		{
+		   gm = GazeManager.getInstance();    
+		   boolean success = gm.activate(ApiVersion.VERSION_1_0, ClientMode.PUSH);
+		   state = Boolean.toString(success);
+		   gm.addGazeListener(gazeListener);
+		   System.out.println("Starting the eyetracking");
+		}
+		else
+		{
+			System.out.println("The eyetracking is already running");
+		}
+			
+	}
+	
+	public static void stop()
+	{
+		if(running)
+		{
+			gm.removeGazeListener(gazeListener);
+			System.out.println("Stopping the eyetracking");
+		}
+		else
+		{
+			System.out.println("The eyetracking is off");
+		}
+	}
+
+	public static double getX()
+	{
+		return x;
+		
+	}
+	
+	public static double getY()
+	{
+		return y;
+		
+	}
+	
+	public static void calibrate()
+	{
+		if(gm.isCalibrating())
+		{
+			gm.calibrationAbort();
+		}
+		System.out.println("Starting calibration");
+		gm.calibrationStart(9, calibrationHandler);
+	}
+	
+	public static void startcalibrationpoint(int x, int y)
+	{
+		gm.calibrationPointStart(x,y);
+		
+	}
+	
+	public static void endcalibrationpoint()
+	{
+		gm.calibrationPointEnd();
+		
+	}
+	
+	public static void setX(double newx)
+	{
+		x = newx;
+	}
+	
+	public static void setY(double newy)
+	{
+		y = newy;
+	}
+	
+}
+
+class GazeListener implements IGazeListener
+{
+    public void onGazeUpdate(GazeData gazeData)
+    {
+        TETHandler.setX(gazeData.smoothedCoordinates.x);
+        TETHandler.setY(gazeData.smoothedCoordinates.y);
+    }
+	
+}
+
+class CalibrationHandler implements ICalibrationProcessHandler
+{
+
+	public void onCalibrationProgress(double n)
+	{
+		System.out.println("Calibrating");
+	}
+	
+	public void onCalibrationResult(CalibrationResult result)
+	{
+		System.out.println("Calibration finished");
+	}
+	
+	public void onCalibrationProcessing()
+	{
+		System.out.println("Calibration processing");
+	}
+	
+	public void onCalibrationStarted()
+	{
+		System.out.println("Calibration started");
+	}
+	
+}

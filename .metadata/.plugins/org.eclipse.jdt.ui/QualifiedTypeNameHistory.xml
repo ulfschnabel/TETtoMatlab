@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.theeyetribe.client.GazeManager"/>
+<fullyQualifiedTypeName name="com.theeyetribe.client.GazeManager.ApiVersion"/>
+<fullyQualifiedTypeName name="com.theeyetribe.client.IGazeListener"/>
+<fullyQualifiedTypeName name="com.theeyetribe.client.data.GazeData"/>
+<fullyQualifiedTypeName name="org.apache.commons.collections.buffer.CircularFifoBuffer"/>
+<fullyQualifiedTypeName name="com.theeyetribe.client.data.CalibrationResult"/>
+</qualifiedTypeNameHistroy>

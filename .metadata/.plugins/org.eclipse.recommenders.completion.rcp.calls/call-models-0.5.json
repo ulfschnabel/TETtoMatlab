@@ -1,0 +1,32 @@
+{
+  "C:\\Users\\Ulf\\workspace\\ETT\\src": {
+    "location": "C:\\Users\\Ulf\\workspace\\ETT\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\Ulf\\workspace\\ETT\\src\u0027. Skipped."
+  },
+  "C:\\Users\\Ulf\\Downloads\\tet-java-client-master\\tet-java-client-master\\src": {
+    "location": "C:\\Users\\Ulf\\Downloads\\tet-java-client-master\\tet-java-client-master\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\Ulf\\Downloads\\tet-java-client-master\\tet-java-client-master\\src\u0027. Skipped."
+  },
+  "C:\\Users\\Ulf\\Downloads\\commons-collections-3.2.1-bin\\commons-collections-3.2.1\\commons-collections-3.2.1.jar": {
+    "coordinate": "org.apache.commons:org.apache.commons.collections:zip:call:3.0.0",
+    "location": "C:\\Users\\Ulf\\Downloads\\commons-collections-3.2.1-bin\\commons-collections-3.2.1\\commons-collections-3.2.1.jar",
+    "status": "RESOLVED"
+  },
+  "C:\\Program Files\\Java\\jre8\\lib\\rt.jar": {
+    "coordinate": "jre:jre:zip:call:1.0.0",
+    "location": "C:\\Program Files\\Java\\jre8\\lib\\rt.jar",
+    "status": "RESOLVED"
+  },
+  "C:\\Users\\Ulf\\workspace\\TETJavaClient.jar": {
+    "location": "C:\\Users\\Ulf\\workspace\\TETJavaClient.jar",
+    "status": "UNRESOLVED",
+    "error": "No call model found for \u0027C:\\Users\\Ulf\\workspace\\TETJavaClient.jar\u0027. Neither fingerprint \u002791513582b26f7cce72a93fc913b47190e7622105\u0027 nor symbolic name \u0027TETJavaClient\u0027 are known."
+  },
+  "C:\\Users\\Ulf\\workspace\\TETtoMatlab\\src": {
+    "location": "C:\\Users\\Ulf\\workspace\\TETtoMatlab\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027C:\\Users\\Ulf\\workspace\\TETtoMatlab\\src\u0027. Skipped."
+  }
+}

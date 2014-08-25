@@ -1,0 +1,201 @@
+package main;
+
+import com.theeyetribe.client.GazeManager;
+import com.theeyetribe.client.IGazeListener;
+import com.theeyetribe.client.GazeManager.*;
+import com.theeyetribe.client.data.CalibrationResult;
+import com.theeyetribe.client.data.GazeData;
+import com.theeyetribe.client.ICalibrationProcessHandler;
+
+
+
+
+public class TETHandler {
+	
+	final static GazeListener gazeListener = new GazeListener();
+	final static CalibrationHandler calibrationHandler = new CalibrationHandler();
+	public static String state;
+	static GazeManager gm;
+	static boolean running = false;
+	static double x;
+	static double y;
+	static double fixx;
+	static double fixy;
+	static double fixtol;
+	static boolean debug = false;
+	static boolean silent = false;
+	public static void main(String[] args)
+	{
+		
+		if(debug) System.out.println("The eyetracking is ready to run");
+			
+	}
+	
+	
+	public static void start()
+	{
+		if(!running)
+		{
+		   gm = GazeManager.getInstance();    
+		   boolean success = gm.activate(ApiVersion.VERSION_1_0, ClientMode.PUSH);
+		   state = Boolean.toString(success);
+		   gm.addGazeListener(gazeListener);
+		   if(!silent) System.out.println("Starting the eyetracking");
+		}
+		else
+		{
+			if(!silent) System.out.println("The eyetracking is already running");
+		}
+			
+	}
+	
+	public static void stop()
+	{
+		if(running)
+		{
+			gm.removeGazeListener(gazeListener);
+			if(!silent) System.out.println("Stopping the eyetracking");
+		}
+		else
+		{
+			if(!silent) System.out.println("The eyetracking is off");
+		}
+	}
+
+	public static double getX()
+	{
+		return x;
+		
+	}
+	
+	public static double getY()
+	{
+		return y;
+		
+	}
+	
+	public static double getfixX()
+	{
+		return fixx;
+		
+	}
+	
+	public static double getfixY()
+	{
+		return fixy;
+		
+	}
+	
+	public static void setfixX(double newval)
+	{
+		fixx = newval;
+		
+	}
+	
+	public static void setfixY(double newval)
+	{
+		fixx = newval;
+		
+	}
+	
+	public static void calibrate()
+	{
+		if(gm.isCalibrating())
+		{
+			gm.calibrationAbort();
+		}
+		if(debug) System.out.println("Starting calibration");
+		gm.calibrationStart(9, calibrationHandler);
+	}
+	
+	public static void startcalibrationpoint(int x, int y)
+	{
+		gm.calibrationPointStart(x,y);
+		
+	}
+	
+	public static void endcalibrationpoint()
+	{
+		gm.calibrationPointEnd();
+		
+	}
+	
+	public static void setX(double newx)
+	{
+		x = newx;
+	}
+	
+	public static void setY(double newy)
+	{
+		y = newy;
+	}
+	
+	public static void fixation(double x, double y, double tol)
+	{
+		gazeListener.setcheckfixation(true);
+		fixx = x;
+		fixy = y;
+		fixtol = tol;
+	}
+	
+}
+
+class GazeListener implements IGazeListener
+{
+	static boolean keptfixation = true;
+	static boolean checkfixation = false;
+    public void onGazeUpdate(GazeData gazeData)
+    {
+        TETHandler.setX(gazeData.smoothedCoordinates.x);
+        TETHandler.setY(gazeData.smoothedCoordinates.y);
+        if(checkfixation)
+        {
+        	if(!(TETHandler.x >= TETHandler.fixx - TETHandler.fixtol && TETHandler.x <= TETHandler.fixx + TETHandler.fixtol))
+        	{
+        		keptfixation = false;
+        		checkfixation = false;
+        	}
+        	else if(!(TETHandler.y >= TETHandler.fixy - TETHandler.fixtol && TETHandler.y <= TETHandler.fixy + TETHandler.fixtol))
+        		{
+        			keptfixation = false;
+        			checkfixation = false;
+        		}
+        }
+    }
+    
+    public boolean isfixating()
+    {
+    	return keptfixation;
+    }
+    
+    public void setcheckfixation(boolean newstate)
+    {
+    	checkfixation = newstate;
+    }
+	
+}
+
+class CalibrationHandler implements ICalibrationProcessHandler
+{
+
+	public void onCalibrationProgress(double n)
+	{
+		if(TETHandler.debug) System.out.println("Calibrating");
+	}
+	
+	public void onCalibrationResult(CalibrationResult result)
+	{
+		if(TETHandler.debug) System.out.println("Calibration finished");
+	}
+	
+	public void onCalibrationProcessing()
+	{
+		if(TETHandler.debug) System.out.println("Calibration processing");
+	}
+	
+	public void onCalibrationStarted()
+	{
+		if(TETHandler.debug) System.out.println("Calibration started");
+	}
+	
+}
