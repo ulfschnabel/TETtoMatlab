@@ -26,6 +26,8 @@ public class TETHandler {
 	static boolean silent = false;
 	static boolean logtofile = false;
 	static long logtime = 0;
+	static int xoffset = 0;
+	static int yoffset = 0;
 	public static FileWriter logwriter;
 	public static void main(String[] args)
 	{
@@ -153,7 +155,7 @@ public class TETHandler {
 	
 	public static void startcalibrationpoint(int x, int y)
 	{
-		gm.calibrationPointStart(x,y);
+		gm.calibrationPointStart(x + xoffset, y + yoffset);
 		
 	}
 	
@@ -179,6 +181,7 @@ public class TETHandler {
 		fixx = x;
 		fixy = y;
 		fixtol = tol;
+		//System.out.println("Fixating at " + Double.toString(fixx) + "/" + Double.toString(fixy));
 	}
 	
 	public static boolean isfixating()
@@ -189,6 +192,10 @@ public class TETHandler {
 	public static boolean iswaitingforfixation()
 	{
 		return gazeListener.checkingfixation() && !gazeListener.enteredfixation();
+	}
+	public static void setoffset(int x, int y){
+		xoffset = x;
+		yoffset = y;
 	}
 }
 
@@ -207,8 +214,8 @@ class GazeListener implements IGazeListener
     	{
     		onegood = true;
     		badcount = 0;
-	        TETHandler.setX(gazeData.smoothedCoordinates.x);
-	        TETHandler.setY(gazeData.smoothedCoordinates.y);
+	        TETHandler.setX(gazeData.smoothedCoordinates.x - TETHandler.xoffset);
+	        TETHandler.setY(gazeData.smoothedCoordinates.y - TETHandler.yoffset);
 	        if(TETHandler.logtofile)
 	        {
 	        	try {
